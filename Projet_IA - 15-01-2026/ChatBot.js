@@ -15,7 +15,7 @@ async function getGeminiResponse(prompt) {
     if (!display) return;
 
     try {
-        display.innerHTML = `<p class="loading">Dom'IA réfléchit...</p>`;
+        display.innerHTML = `<p class="loading">IPS'IA réfléchit...</p>`;
         console.log("Envoi du prompt vers Gemini Pro...");
 
         const response = await fetch(URL, {
@@ -33,12 +33,32 @@ async function getGeminiResponse(prompt) {
 
         const data = await response.json();
         
+        // Suppression du message "loading"
+        display.innerHTML = ""; 
+
         if (data.candidates && data.candidates[0].content) {
             const aiText = data.candidates[0].content.parts[0].text;
-            const formattedText = aiText.replace(/\n/g, '<br>');
-            display.innerHTML = `<p class="ai-message">${formattedText}</p>`;
-        } 
-        else {
+            
+            // ÉTAPE 1 : Conversion du Markdown (gras, listes) en HTML
+            // On utilise la librairie "marked" qu'on a ajoutée dans le HTML
+            const htmlContent = marked.parse(aiText);
+            
+            // Création de l'élément div pour le message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'ai-message';
+            messageDiv.innerHTML = htmlContent;
+            
+            display.appendChild(messageDiv);
+
+            // ÉTAPE 2 : Rendu des mathématiques avec MathJax
+            // On demande à MathJax de scanner le nouveau message pour transformer les $$...$$
+            if (window.MathJax) {
+                MathJax.typesetPromise([messageDiv]).then(() => {
+                    console.log("Formules mathématiques rendues.");
+                }).catch((err) => console.log('Erreur MathJax:', err));
+            }
+
+        } else {
             display.innerHTML = `<p>Réponse vide de l'IA.</p>`;
         }
 
