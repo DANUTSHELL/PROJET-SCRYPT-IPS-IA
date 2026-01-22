@@ -1,7 +1,7 @@
 /* --- ChatBot.js VERSION STABLE (GEMINI PRO) --- */
 
 // 1. CONFIGURATION API
-const API_KEY = "AIzaSyA_4ErBEbqU-sX4sZIcZAw5OoBg_izhdxA"; 
+const API_KEY = "GEMINI_API_KEY"; 
 
 // CHANGEMENT ICI : On utilise le modèle 'gemini-pro' qui est le plus compatible
 const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
