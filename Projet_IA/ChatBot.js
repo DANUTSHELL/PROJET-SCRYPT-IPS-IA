@@ -1,8 +1,9 @@
-/* --- ChatBot.js VERSION V2 (Mémoire + Chat UI) --- */
+/* --- ChatBot.js CORRIGÉ --- */
 
 // 1. CONFIGURATION
-const API_KEY = "VOTRE_API_KEY_ICI";
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+const API_KEY = "GEMINI_API_KEY"; 
+
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
 
 // 2. ÉLÉMENTS HTML
 const btn = document.getElementById('sendBtn');
@@ -10,7 +11,6 @@ const input = document.getElementById('userInput');
 const display = document.getElementById('responseContainer');
 
 // 3. VARIABLES D'ÉTAT (MÉMOIRE)
-// On initialise l'historique avec une instruction système pour donner une personnalité à l'IA
 let chatHistory = [
     {
         role: "user",
@@ -29,36 +29,38 @@ function appendMessage(text, sender) {
     
     if (sender === 'user') {
         div.classList.add('user-message');
-        div.textContent = text; // Pas de markdown pour l'user, texte brut
+        div.textContent = text; 
     } else {
         div.classList.add('ai-message');
-        // Conversion Markdown -> HTML
-        div.innerHTML = marked.parse(text); 
+        // Vérifie si "marked" est bien chargé, sinon affiche le texte brut
+        if (typeof marked !== 'undefined') {
+            div.innerHTML = marked.parse(text);
+        } else {
+            div.textContent = text;
+        }
     }
 
     display.appendChild(div);
-    
-    // Scroll automatique vers le bas pour voir le dernier message
     display.scrollTop = display.scrollHeight;
 
-    // Si c'est l'IA, on active MathJax sur ce nouveau message
+    // Rendu MathJax si nécessaire
     if (sender === 'ai' && window.MathJax) {
-        MathJax.typesetPromise([div]).catch((err) => console.log(err));
+        MathJax.typesetPromise([div]).catch((err) => console.log('Erreur MathJax:', err));
     }
 }
 
 // 5. FONCTION PRINCIPALE (INTELLIGENCE)
 async function getGeminiResponse(userMessage) {
-    // A. Afficher le message de l'utilisateur
+    // A. Afficher le message utilisateur
     appendMessage(userMessage, 'user');
 
-    // B. Ajouter le message de l'utilisateur à l'historique (mémoire)
+    // B. Ajouter à l'historique
     chatHistory.push({
         role: "user",
         parts: [{ text: userMessage }]
     });
 
-    // C. Afficher une bulle de chargement temporaire
+    // C. Loading
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'loading-bubble';
     loadingDiv.textContent = "IPS'IA réfléchit...";
@@ -66,38 +68,39 @@ async function getGeminiResponse(userMessage) {
     display.scrollTop = display.scrollHeight;
 
     try {
-        // D. Appel API avec TOUT l'historique
+        // D. Appel API
         const response = await fetch(URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: chatHistory
-            })
+            body: JSON.stringify({ contents: chatHistory })
         });
 
-        // Suppression du message de chargement
-        display.removeChild(loadingDiv);
+        // Suppression du loading
+        if(loadingDiv.parentNode) {
+            display.removeChild(loadingDiv);
+        }
 
         if (!response.ok) {
-            throw new Error(`Erreur API: ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(`Erreur API (${response.status}) : ${errorData.error.message}`);
         }
 
         const data = await response.json();
         const aiText = data.candidates[0].content.parts[0].text;
 
-        // E. Afficher la réponse de l'IA
+        // E. Afficher réponse IA
         appendMessage(aiText, 'ai');
 
-        // F. Ajouter la réponse de l'IA à l'historique (pour le prochain tour)
+        // F. Sauvegarder dans l'historique
         chatHistory.push({
             role: "model",
             parts: [{ text: aiText }]
         });
 
     } catch (error) {
-        display.removeChild(loadingDiv); // Enlever le loading même en cas d'erreur
-        console.error("Erreur:", error);
-        appendMessage("Oups, une erreur est survenue. Vérifiez la console (F12).", 'ai');
+        if(loadingDiv.parentNode) display.removeChild(loadingDiv);
+        console.error("ERREUR:", error);
+        appendMessage(`Une erreur est survenue : ${error.message}`, 'ai');
     }
 }
 
@@ -105,7 +108,6 @@ async function getGeminiResponse(userMessage) {
 function sendMessage() {
     const message = input.value.trim();
     if (message !== "") {
-        // Au premier message, on efface le message de bienvenue par défaut s'il est là
         const greeting = document.querySelector('.greeting');
         if (greeting) greeting.style.display = 'none';
 

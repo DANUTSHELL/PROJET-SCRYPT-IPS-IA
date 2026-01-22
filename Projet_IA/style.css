@@ -1,5 +1,5 @@
 :root {
-    --bg-color: #b4f989;
+    --bg-color: #373737;
     --sidebar-color: #1e1f20;
     --text-main: #000000;
     --input-bg: #1e1f20;
@@ -118,7 +118,7 @@ input {
 /* Badge Flash */
 .v-badge {
     font-size: 12px;
-    background: #a9c606;
+    background: #ffffff;
     color: white;
     padding: 2px 8px;
     border-radius: 10px;
@@ -200,14 +200,14 @@ input {
 /* Style Utilisateur (À droite, couleur accentuée) */
 .user-message {
     align-self: flex-end; /* Pousse à droite */
-    background-color: #a9c606; /* Ta couleur "Flash" ou un bleu/violet */
+    background-color: #078ee2; /* Ta couleur "Flash" ou un bleu/violet */
     border-bottom-right-radius: 2px; /* Petit effet visuel */
 }
 
 /* Style IA (À gauche, gris sombre) */
 .ai-message {
     align-self: flex-start; /* Pousse à gauche */
-    background-color: #2d2d2d;
+    background-color: #a9a9a9;
     border-bottom-left-radius: 2px;
 }
 
