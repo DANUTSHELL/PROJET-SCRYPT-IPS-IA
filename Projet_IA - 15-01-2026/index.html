@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom'IA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="menu-icon">☰</div>
+            <button class="new-chat">+ What's new today ? 😊</button>
+            <div class="recent">Previously</div>
+        </nav>
+
+        <main class="chat-area">
+            <header>
+                <h1>Dom'IA <span class="v-badge">Flash</span></h1>
+            </header>
+
+            <div id="responseContainer" class="response-area">
+                <p class="greeting">Welcome ! How may I help you ?</p>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <input type="text" id="userInput" placeholder="Écrivez votre message ici...">
+                    
+                    <div class="input-icons">
+                        <span id="sendBtn" style="cursor: pointer;">➤</span>
+                    </div>
+                </div>
+                <p class="footer-text">Projet prototype d'IA "Dom'IA" par Dominique SARETE assisté par Rayan Belaidi</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="ChatBot.js"></script>
+</body>
+</html>
