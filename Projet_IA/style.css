@@ -172,3 +172,62 @@ input {
     border-radius: 4px;
     font-family: monospace;
 }
+
+/* --- Zone de réponse (Chat container) --- */
+.response-area {
+    flex: 1;
+    width: 100%;
+    max-width: 800px;
+    overflow-y: auto; /* Permet le scroll */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Empile les messages */
+    gap: 15px; /* Espace entre les bulles */
+}
+
+/* --- Bulles de messages --- */
+.message-bubble {
+    padding: 15px 20px;
+    border-radius: 15px;
+    max-width: 80%; /* Le message ne prend pas toute la largeur */
+    line-height: 1.5;
+    word-wrap: break-word;
+    font-size: 16px;
+    color: #fff;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Style Utilisateur (À droite, couleur accentuée) */
+.user-message {
+    align-self: flex-end; /* Pousse à droite */
+    background-color: #a9c606; /* Ta couleur "Flash" ou un bleu/violet */
+    border-bottom-right-radius: 2px; /* Petit effet visuel */
+}
+
+/* Style IA (À gauche, gris sombre) */
+.ai-message {
+    align-self: flex-start; /* Pousse à gauche */
+    background-color: #2d2d2d;
+    border-bottom-left-radius: 2px;
+}
+
+/* Style du Loading (À gauche) */
+.loading-bubble {
+    align-self: flex-start;
+    background-color: #2d2d2d;
+    color: #aaa;
+    font-style: italic;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajustements pour le Markdown dans les bulles */
+.ai-message h1, .ai-message h2 { margin-top: 0; font-size: 1.2em; color: #b4f989; }
+.ai-message p { margin-bottom: 10px; }
+.ai-message code { background-color: #1a1a1a; padding: 2px 5px; border-radius: 4px; color: #e83e8c; }
