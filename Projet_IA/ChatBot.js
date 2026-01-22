@@ -3,7 +3,6 @@
 // 1. CONFIGURATION API
 const API_KEY = "GEMINI_API_KEY"; 
 
-// CHANGEMENT ICI : On utilise le modèle 'gemini-pro' qui est le plus compatible
 const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
 // 2. ÉLÉMENTS HTML
 const btn = document.getElementById('sendBtn');
