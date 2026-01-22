@@ -51,13 +51,11 @@ body {
 }
 
 .greeting {
-    font-size: 40px;
-    font-weight: 500;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-top: 100px;
+    font-size: 42px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 15vh;
+    color: #ffffff;
 }
 
 /* Barre de recherche */
@@ -119,7 +117,7 @@ input {
 .v-badge {
     font-size: 12px;
     background: #ffffff;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 2px 8px;
     border-radius: 10px;
     vertical-align: middle;
