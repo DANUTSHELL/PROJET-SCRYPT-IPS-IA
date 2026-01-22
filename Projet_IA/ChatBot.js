@@ -1,7 +1,7 @@
 /* --- ChatBot.js VERSION V2 (Mémoire + Chat UI) --- */
 
 // 1. CONFIGURATION
-const API_KEY = "VOTRE_API_KEY_ICI"; // ⚠️ Remettez votre clé ici !
+const API_KEY = "VOTRE_API_KEY_ICI";
 const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 // 2. ÉLÉMENTS HTML
